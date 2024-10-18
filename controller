@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 from model import users
 
-vamos_arrasar = Blueprint('ListaUser', __name__)
+vamos_arrasar = Blueprint('users', __name__)
 
 @vamos_arrasar.route('/')
 def visu():
