@@ -1,13 +1,13 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from model.models import
+from flask import Blueprint, render_template, request
+from model import users
 
 vamos_arrasar = Blueprint('ListaUser', __name__)
 
 @vamos_arrasar.route('/')
 def visu():
-return render_template ('index.html')
+    return render_template ('index.html')
 
 @vamos_arrasar.route('/login', methods=['POST'])
 def add():
-nome = request.form ['username']
-senha = request.form ['password']
+    nome = request.form ['username']
+    senha = request.form ['password']
