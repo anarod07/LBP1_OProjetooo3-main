@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sei lá</title>
+<title>Login</title>
 <style>
 body {
 font-family: 'Inter', sans-serif;
@@ -112,9 +112,9 @@ background-color: #7b009a;
 <div class="page">
 <form method="post" class="formLogin">
 <h1>Login do usuário</h1>
-<p>Digite seus dados:</p>
-<label for="text">Nome de usuário</label>
-<input type="text" placeholder="digite seu nome de uauário" required>
+<p>Digite seus dados</p>
+<label for="text">Nome de usuário:</label>
+<input type="text" placeholder="digite seu nome de usuário" required>
 <label for="password">Senha:</label>
 <input type="password" placeholder="digite sua senha" required>
 <input type="submit" value="Acessar" class="btn">
