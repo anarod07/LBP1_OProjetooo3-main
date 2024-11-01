@@ -1,10 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from controller import vamos_arrasar
+from controllers.controller import loginController
 
 app = Flask(__name__)
-app.secret_key = 'chave_secreta'
+app.secret_key = '4321'
+app.register_blueprint(loginController)
 
-userData = {"username": "usuario", "password": "senha"}
+publicRoutes=["register.index", "login.login"]
+
+@app.before.request
+def funcao():
+    if request.endpoint == publicRoutes:
+        return
+    if "username" in session:
+        return redirect(url_for("register.index"))
+    return redirect(url_for("login.login"))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -22,7 +31,7 @@ def login():
 def dashboard():
     if 'username' in session:
         return f'Bem-vindo, {session['username']}'
-    else:\
+    else:
         return redirect(url_for(login))
     
 @app.route('/logout')
