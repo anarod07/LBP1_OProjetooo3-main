@@ -1,13 +1,27 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from model import users
 
-vamos_arrasar = Blueprint('users', __name__)
+loginController = Blueprint("login", __name__)
 
-@vamos_arrasar.route('/')
-def visu():
+@loginController.route('/')
+def logar():
     return render_template ('index.html')
 
-@vamos_arrasar.route('/login', methods=['POST'])
-def add():
-    nome = request.form ['username']
-    senha = request.form ['password']
+@loginController.route('/verificar', methods=['POST', 'GET'])
+def verificar():
+    username = request.form.get["username"]
+    password = request.form.get["password"]
+    if username == "Ana" and password == "4321":
+        session['username']=username
+        
+        return redirect(url_for("register.index"))
+    return f"Nome de usuário ou senha incorretos"
+
+@loginController.route('/login')
+def logar():
+        return render_template("index.html")
+
+@loginController.route('/logout')
+def logout():
+    session.pop("username", None)
+    return redirect(url_for("login.login"))
