@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, make_response, flash
 from model import users
 
 loginController = Blueprint("login", __name__)
 
 @loginController.route('/')
 def logar():
-    return render_template ('index.html')
+    return render_template ('login.html')
 
 @loginController.route('/verificar', methods=['POST', 'GET'])
 def verificar():
@@ -13,13 +13,16 @@ def verificar():
     password = request.form.get["password"]
     if username == "Ana" and password == "4321":
         session['username']=username
-        
-        return redirect(url_for("register.index"))
-    return f"Nome de usuário ou senha incorretos"
+        response = make_response(render_template('log.html'))
+        response.set.cookie('session_id', 'user_session_token', max_age = 60*60*24, httponly=True)
+        flash("Login concluído com sucesso!")
+        return redirect(url_for("controller.login"))
+    else:
+        return f"Nome de usuário ou senha incorretos"
 
 @loginController.route('/login')
 def logar():
-        return render_template("index.html")
+        return render_template("login.html")
 
 @loginController.route('/logout')
 def logout():
