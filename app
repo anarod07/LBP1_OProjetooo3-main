@@ -5,48 +5,36 @@ app = Flask(__name__)
 app.secret_key = '4321'
 app.register_blueprint(loginController)
 
-publicRoutes=["register.index", "login.login"]
+publicRoutes=["controller.login", "login.login"]
 
 @app.before.request
 def funcao():
     if request.endpoint == publicRoutes:
         return
     if "username" in session:
-        return redirect(url_for("register.index"))
+        return redirect(url_for("controller.login"))
     return redirect(url_for("login.login"))
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form ['username']
-        password = request.form ['password']
-        if username == userData ['username'] and password == ['password']:
-            username = username
-            return redirect(url_for('dashboard'))
-        else:
-            flash("Nome de usuário ou senha incorretos")
-            return render_template('index.html')
-        
-@app.route('/dashboard')
-def dashboard():
-    if 'username' in session:
-        return f'Bem-vindo, {session['username']}'
-    else:
-        return redirect(url_for(login))
-    
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for(login))
+@app.errorhadler(404)
+def page_not_found(e):
+    flash("Ocorreu um erro")
+    return render_template('error.html', errorCode = 404, errorMessage = "Página não encontrada"), 404
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'GET':
-        return render_template('register.html')
-    elif request.method == 'POST':
-        username = request.form ['username']
-        password = request.form ['password']
+@app.errorhadler(403)
+def forbidden_error(e):
+    flash("Ocorreu um erro")
+    return render_template('error.html', errorCode = 403, errorMessage = "Acesso negado, faça login primeiro"), 403
 
+@app.errorhadler(401)
+def unauthorized_error(e):
+    flash("Ocorreu um erro")
+    return render_template('error.html', errorCode = 401, errorMessage = "Acesso não autorizado, credenciais inválidas"), 401
+
+@app.errorhadler(500)
+def internal_server_error(e):
+    flash("Ocorreu um erro")
+    app.logger.error(f"Erro 500: {e}")
+    return render_template('error.html', errorCode = 500, errorMessage = "Erro interno do servidor"), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
