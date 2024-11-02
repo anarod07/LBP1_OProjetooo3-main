@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro {{ errorCode }}</title>
+</head>
+<body>
+    <h1>Erro {{ errorCode }}</h1>
+    <p> {{ errorMessage }}</p>
+    <a href="{{ url_for('login.page') }}">Voltar ao Login</a>
+</body>
+</html>
