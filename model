@@ -2,4 +2,5 @@ def __init__(self, username, password):
     self.username=username
     self.password=password
 
-users = ['Ana', 'Igor', 'Mayara', 'Sol', 'Any', 'Marcelia']
+users = ['Ana']
+passwords=['4321']
